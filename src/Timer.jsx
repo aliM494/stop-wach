@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { context } from './context';
+import TimeSave from './TimeSave';
 
 var Interval;
 
@@ -10,6 +12,15 @@ class Timer extends React.Component {
             minute: 0,
             second: 0,
             IsStart: false
+        }
+    }
+
+    static contextType = context;
+
+    handleSaveTime = () => {
+        let newTime = document.querySelector('.Timer_watch h2').innerHTML;
+        if (this.context.TimeSaved.indexOf(newTime) == -1) {
+            this.context.setTimeSaved([...this.context.TimeSaved, newTime]);
         }
     }
 
@@ -52,7 +63,7 @@ class Timer extends React.Component {
             minute: 0,
             hour: 0
         });
-        // this.context.setTimearr([]);
+        this.context.setTimeSaved([]);
     }
 
     render() {
@@ -62,11 +73,11 @@ class Timer extends React.Component {
         return (
             <>
                 <div className="Timer">
-                    <h2 className={`${(s<1)? "before_Hover" : "After_Hover"}`}>Hover Me!!!</h2>
-                    <div className={`${(s < 1)? "Timer_container" : ""} Timer_watch ${(s > 0) ? "Timer_watch_H" : ""} `}>
-                        <h2 contenteditable="false">{`${h > 9 ? h : "0" + h} : ${m > 9 ? m : "0" + m} : ${s > 9 ? s : "0" + s}`}</h2>
+                    <h2 className={`${(s < 1) ? "before_Hover" : "After_Hover"}`}>Hover Me!!!</h2>
+                    <div className={`${(s < 1) ? "Timer_container" : ""} Timer_watch ${(s > 0) ? "Timer_watch_H" : ""} `}>
+                        <h2 contenteditable="false" onClick={(s > 0) ? this.handleSaveTime : ""}>{`${h > 9 ? h : "0" + h} : ${m > 9 ? m : "0" + m} : ${s > 9 ? s : "0" + s}`}</h2>
                     </div>
-                    <ul className={`${(s < 1)? "Timer_container" : ""}`}>
+                    <ul className={`${(s < 1) ? "Timer_container" : ""}`}>
                         <li className={`${(!this.state.IsStart) ? "play" : "stop"}`} onClick={(!this.state.IsStart) ? this.start : this.stop}><a href="#"><i id="Changer_icon" className={`fa ${(!this.state.IsStart) ? "fa-play" : "fa-pause"}`}></i></a></li>
                         <li className="reset" onClick={this.reset}><a href="#"><i class="fa fa-refresh"></i></a></li>
                     </ul>

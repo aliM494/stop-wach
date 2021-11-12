@@ -1,15 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Timer from './Timer';
-import TimeSave from './TimeSave';
+import { context } from './context';
 import './Style.css';
+import TimeSave from './TimeSave';
 
 const App = () => {
+    const [TimeSaved, setTimeSaved] = useState([]);
 
     return (
-        <><section class="BKEffect">
-            <Timer />
-            <TimeSave />
-        </section>
+        <>
+            <context.Provider value={{
+                TimeSaved,
+                setTimeSaved
+            }}>
+                <section class="BKEffect">
+                    <Timer />
+                    <TimeSave />
+                </section>
+            </context.Provider>
         </>
     );
 };

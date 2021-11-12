@@ -1,13 +1,19 @@
-import React ,{useEffect} from 'react';
+import React, { useEffect } from 'react';
+import { useContext } from 'react';
 import reactDom from 'react-dom';
+import { context } from './context';
 
 const TimeSave = () => {
+    const Context = useContext(context);
+
+    const handleDeleteTimeSaved=(e)=>{
+        Context.setTimeSaved(Context.TimeSaved.filter(t=> t != e.target.innerHTML));
+    }
 
     return (
         <>
             <div className="Time_Save">
-                <h2 id="saved_time" contenteditable="false">00 : 00 : 55</h2>
-                <h2 id="saved_time" contenteditable="false">00 : 00 : 55</h2>
+                {Context.TimeSaved.map((t)=>(<h2 id="TIME" onClick={handleDeleteTimeSaved}>{t}</h2>))}
             </div>
         </>
     );
